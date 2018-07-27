@@ -2,7 +2,7 @@
     <div class="container">
         <h1 class="text-center pb-2 mt-4 mb-2 border-bottom">Browse Active Projects</h1>
         <b-alert show class="pointer" variant="primary">
-            <font-awesome-icon icon="lightbulb" size="lg" class=""/>
+            <font-awesome-icon icon="lightbulb" size="lg"/>
             <span class="refer_promotion">Earn <b>$50</b> if you refer a friend to a study!</span>
         </b-alert>
         <div class="filter card">
@@ -61,6 +61,8 @@
             :description="project.description"
             :comp="project.respondentRemunerationFormatted"
             :length="project.timeMinutesRequired"
+            :id="project.id"
+            :skipProject="skipProject"
         >
         </project>
         <div v-if="projects.length == 0">
@@ -96,6 +98,7 @@
             return {
                searchText: '',
                filters: [],
+               skippedProjects: [],
                possibleTypes,
             }
         },
@@ -149,14 +152,10 @@
                 if (vm.filters.length > 0) {
                     vm.filters = vm.filters.filter(filter => filter.type != filterTypes.type)
                 }
+            },
+            skipProject(id) {
+                this.skippedProjects.push(id)
             }
-        },
-        mounted: function() {
-            const set = new Set
-            sampleData.projects.forEach((project) => {
-                set.add(project.kindOfResearchFormatted)
-            })
-            console.log('set', set)
         },
         computed: {
             projects() {
@@ -168,6 +167,10 @@
                 vm.filters.forEach((filter) => {
                     data = data.filter(filter.filterFunction)
                 })
+                vm.skippedProjects.forEach((id) => {
+                    data = data.filter(project => project.id != id)
+                })
+                console.log('skipped', this.skippedProjects)
                 console.log(data)
                 return data
             }
