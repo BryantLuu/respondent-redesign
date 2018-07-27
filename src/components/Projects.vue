@@ -150,7 +150,7 @@
             removeFilter(type) {
                 const vm = this;
                 if (vm.filters.length > 0) {
-                    vm.filters = vm.filters.filter(filter => filter.type != filterTypes.type)
+                    vm.filters = vm.filters.filter(filter => filter.type != type)
                 }
             },
             skipProject(id) {
@@ -170,8 +170,6 @@
                 vm.skippedProjects.forEach((id) => {
                     data = data.filter(project => project.id != id)
                 })
-                console.log('skipped', this.skippedProjects)
-                console.log(data)
                 return data
             }
         }
