@@ -106,8 +106,8 @@
             searchFilter(item) {
                 const vm = this;
                 return (
-                    item.description && item.description.indexOf(vm.searchText) > 0 ||
-                    item.locationFormatted && item.locationFormatted.indexOf(vm.searchText) > 0
+                    item.description && item.description.toLowerCase().indexOf(vm.searchText.toLowerCase()) > 0 ||
+                    item.locationFormatted && item.locationFormatted.toLowerCase().indexOf(vm.searchText.toLowerCase()) > 0
                 )
             },
             removeFilterTag(index) {
